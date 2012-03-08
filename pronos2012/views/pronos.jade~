@@ -1,0 +1,9 @@
+head
+  style
+    .hidden{
+	visibility:hidden;
+    }
+
+    .shown{
+	visibility:visible;
+    }

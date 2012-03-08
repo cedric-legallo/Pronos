@@ -1,0 +1,14 @@
+.hidden
+  - if ('undefined' !== typeof errors && errors.length)
+    ul#errors
+      - each error in errors
+        li.error= error
+  form(action='/login', method='POST', name='loginForm', onsubmit="xmlhttpPost('/login', 'loginForm', 'onLogin'); return false;")
+    #email
+      label(for=everyauth.password.loginFormFieldName) E-mail : 
+      input(type='text', name=everyauth.password.loginFormFieldName)
+    #password
+      label(for=everyauth.password.passwordFormFieldName) Mot de passe :
+      input(type='password', name=everyauth.password.passwordFormFieldName)
+    #submit
+      input(type='submit') Connecter

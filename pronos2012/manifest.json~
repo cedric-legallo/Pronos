@@ -1,0 +1,20 @@
+{
+  "name": "Pronostics Euro 2012",
+  "description": "Pariez sur les matchs de l'Euro 2012",
+  "version": "1",
+  "app": {
+    "urls": [
+      "*://pronos2012.nodester.com/"
+    ],
+    "launch": {
+      "web_url": "http://pronos2012.nodester.com/"
+    }
+  },
+  "icons": {
+    "128": "icon_128.png"
+  },
+  "permissions": [
+    "unlimitedStorage",
+    "notifications"
+  ]
+}

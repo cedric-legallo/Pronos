@@ -1,0 +1,1 @@
+exports.Nations=["Allemagne", "Angleterre", "Croatie", "Danemark", "Espagne", "France", "Grèce", "Irlande", "Italie", "Pays-Bas", "Pologne", "Portugal", "République Tchèque", "Russie", "Suède", "Ukraine"];
