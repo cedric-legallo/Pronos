@@ -66,7 +66,8 @@ pronos.db.UserSchema.plugin(mongooseAuth, {
 //pronos.db.Pronos = new mongoose.Schema
 
 // Adds login: String
-mongoose.connect('mongodb://localhost/pronos');
+//mongoose.connect('mongodb://localhost/pronos');
+mongoose.connect('mongodb://cedobear:1234@ds031417.mongolab.com:31417/pronos');
 mongooseTypes.loadTypes(mongoose);
 
 var User = mongoose.model("User", pronos.db.UserSchema);
@@ -100,5 +101,6 @@ app.get('/toto', function(req, res){
 });
 
 mongooseAuth.helpExpress(app);
+
 
 app.listen(15436);
