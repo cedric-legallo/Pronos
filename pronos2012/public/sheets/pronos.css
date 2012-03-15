@@ -1,0 +1,18 @@
+.hidden{
+    visibility:hidden;
+}
+
+.shown{
+    visibility:visible;
+}
+
+footer a{
+    text-decoration:none;
+}
+
+.date:before{
+    content:" le ";
+}
+.time:before{
+    content:" à ";
+}
