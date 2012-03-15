@@ -3,27 +3,28 @@
   <head>
     <title>Pronostics Euro 2012</title>
     <link href="pronos.css"/>
-    <script src="pronos.js"></script>
+    <script src="pronoStub.js"></script>
+    <script src="transparency.min.js"></script>
   </head>
-  <body>
+  <body onload="loadStubDatas();">
     <header>
       <img src="img/header.jpg"/>
     </header>
     <nav>
       <ul>
-	<li>
+	<li onclick="loadHome()">
 	  Accueil
 	</li>
-	<li>
+	<li onclick="loadPronos()">
 	  Pronostics
 	</li>
 	<li>
 	  Calendrier de la compétition
 	  <ul>
-	    <li>
+	    <li onclick="loadCalendar()">
 	      Calendrier
 	    </li>
-	    <li>
+	    <li onclick="loadGroups()">
 	      Les Groupes
 	    </li>
 	  </ul>
@@ -31,22 +32,19 @@
 	<li>
 	  Mon Compte
 	  <ul>
-	    <li>
+	    <li onclick="loadProfil()">
 	      Profil
 	    </li>
-	    <li>
+	    <li onclick="loadMails()">
 	      Messagerie
 	    </li>
 	  </ul>
-	</li>
-	<li>
-	  Les Nouvelles
 	</li>
       </ul>
     </nav>
     <div id="main">
     </div>
-    <div id="rightpanel">
+    <div id="events">
     </div>
     <section id="news">
       http://fr.uefa.com/rssfeed/news/rss.xml

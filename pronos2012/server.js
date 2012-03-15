@@ -20,7 +20,7 @@ pronos.db.UserSchema.plugin(mongooseAuth, {
         },
 	facebook: {
           everyauth: {
-              myHostname: 'http://localhost:3000'
+              myHostname: "http://pronos2012.nodester.com"
             , appId: mongooseAuthConf.fb.appId
             , appSecret: mongooseAuthConf.fb.appSecret
             , redirectPath: '/'
@@ -28,7 +28,7 @@ pronos.db.UserSchema.plugin(mongooseAuth, {
         },
 	twitter: {
           everyauth: {
-              myHostname: 'http://localhost:3000'
+              myHostname: "http://pronos2012.nodester.com"
             , consumerKey: mongooseAuthConf.twit.consumerKey
             , consumerSecret: mongooseAuthConf.twit.consumerSecret
             , redirectPath: '/'
@@ -36,7 +36,7 @@ pronos.db.UserSchema.plugin(mongooseAuth, {
 	},
 	google: {
 	    everyauth: {
-		myHostname: 'http://localhost:3000'
+		myHostname: "http://pronos2012.nodester.com"
 		, appId: mongooseAuthConf.google.clientId
 		, appSecret: mongooseAuthConf.google.clientSecret
 		, redirectPath: '/'
@@ -84,11 +84,13 @@ var app = express.createServer(
 
 app.configure( function () {
   app.set('views', __dirname + '/views');
-  app.set('view engine', 'jade');
+  app.set('view options', {layout: false});
+  app.set('view engine', 'ejs');
+  
 });
 
 app.get('/', function (req, res) {
-  res.render('home');
+  res.render('test');
 });
 
 app.get('/logout', function (req, res) {
@@ -97,7 +99,7 @@ app.get('/logout', function (req, res) {
 });
 
 app.get('/toto', function(req, res){
-	res.send({hello : 'hello world'});
+    res.send({hello : 'hello world'});
 });
 
 mongooseAuth.helpExpress(app);
