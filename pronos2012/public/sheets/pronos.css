@@ -1,9 +1,11 @@
 .hidden{
-    visibility:hidden;
+    position:absolute;
+    left:-100000px;
 }
 
 .shown{
-    visibility:visible;
+    position:relative;
+    left:0px;
 }
 
 footer a{
@@ -14,5 +16,5 @@ footer a{
     content:" le ";
 }
 .time:before{
-    content:" à ";
+    content:" Ã  ";
 }

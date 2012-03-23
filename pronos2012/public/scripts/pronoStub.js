@@ -4,13 +4,13 @@ function loadStubDatas(){
 };
 
 var events = [
-	      {"username" : "Cédric Le Gallo",
+	      {"username" : "Cedric Le Gallo",
 	       "type" : "prono",
 	       "datas" : "France-Espagne",
 	       "date" : "08/03/2012",
 	       "time" :"09:58"
 	      },
-	      {"username" : "Cédric Le Gallo",
+	      {"username" : "Cedric Le Gallo",
 	       "type" : "comment",
 	       "datas" : "",
 	       "date" : "08/03/2012",
@@ -49,8 +49,8 @@ var posts = [
 var homeInnerHTML="<div id='posts'><div class='post'><span class='author'></span><span class='message'></span><span class='date'></span><span class='time'></span></div></div>";
 
 function loadHome(){
-//    document.getElementById("main").innerHTML=homeInnerHTML;
-//    Transparency.render(document.getElementById("posts"),posts);
+    document.getElementById("main").innerHTML=homeInnerHTML;
+    Transparency.render(document.getElementById("posts"),posts);
 };
 
 function loadPronos(){

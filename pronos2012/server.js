@@ -9,6 +9,10 @@ var mongoose = require("mongoose"), mongooseTypes = require("mongoose-types"), m
 pronos.db.UserSchema = new mongoose.Schema({
    nation: {type : String, enum : CONST.Nations}
 });
+
+var appHostName="http://localhost:15436";
+//var appHostName="http://pronos2012.nodester.com";
+
 pronos.db.UserSchema.plugin(mongooseAuth, {
 	// Here, we attach your User model to every module
         everymodule: {
@@ -20,7 +24,7 @@ pronos.db.UserSchema.plugin(mongooseAuth, {
         },
 	facebook: {
           everyauth: {
-              myHostname: "http://pronos2012.nodester.com"
+              myHostname :appHostName
             , appId: mongooseAuthConf.fb.appId
             , appSecret: mongooseAuthConf.fb.appSecret
             , redirectPath: '/'
@@ -28,7 +32,7 @@ pronos.db.UserSchema.plugin(mongooseAuth, {
         },
 	twitter: {
           everyauth: {
-              myHostname: "http://pronos2012.nodester.com"
+              myHostname: appHostName
             , consumerKey: mongooseAuthConf.twit.consumerKey
             , consumerSecret: mongooseAuthConf.twit.consumerSecret
             , redirectPath: '/'
@@ -36,7 +40,7 @@ pronos.db.UserSchema.plugin(mongooseAuth, {
 	},
 	google: {
 	    everyauth: {
-		myHostname: "http://pronos2012.nodester.com"
+		myHostname: appHostName
 		, appId: mongooseAuthConf.google.clientId
 		, appSecret: mongooseAuthConf.google.clientSecret
 		, redirectPath: '/'

@@ -1,4 +1,3 @@
-<script>
 function display(node){
     var node = node.nextSibling;
     node.className = node.className == 'hidden' ? 'visible' : 'hidden';
@@ -74,4 +73,3 @@ function onLogin(data){
 
 function register(){
 }
-</script>
