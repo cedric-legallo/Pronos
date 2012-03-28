@@ -3,7 +3,23 @@ function display(node){
     node.className = node.className == 'hidden' ? 'visible' : 'hidden';
 }
 
-function xmlhttpPost(strURL,formname,callback,errorCallback) {
+function xmlhttpGet(strURL,callback) {
+    var xmlHttpReq = false;
+    var self = this;
+    // Xhr per Mozilla/Safari/Ie7
+    if (window.XMLHttpRequest) {
+        self.xmlHttpReq = new XMLHttpRequest();
+    }
+    self.xmlHttpReq.open('GET', strURL, true);
+    self.xmlHttpReq.onreadystatechange = function() {
+        if (self.xmlHttpReq.readyState == 4) {
+            callback(JSON.parse(self.xmlHttpReq.responseText));
+        }
+    };
+    self.xmlHttpReq.send();
+}
+
+function xmlhttpPost(strURL,formname,callback) {
     var xmlHttpReq = false;
     var self = this;
     // Xhr per Mozilla/Safari/Ie7
@@ -16,9 +32,6 @@ function xmlhttpPost(strURL,formname,callback,errorCallback) {
         if (self.xmlHttpReq.readyState == 4) {
             window[callback](self.xmlHttpReq.responseText);
         }
-	else{
-	    window[errorCallback||callback](self.xmlHttpReq.responseText);
-	}
     }
     self.xmlHttpReq.send(getquerystring(formname));
 }
@@ -65,11 +78,4 @@ function getquerystring(formname) {
         }
     }
     return qstr;
-}
-
-function onLogin(data){
-    console.log(data);
-}
-
-function register(){
 }

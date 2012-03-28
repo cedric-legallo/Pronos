@@ -1,4 +1,4 @@
-.hidden{
+.hidden, .matchid{
     position:absolute;
     left:-100000px;
 }
@@ -17,4 +17,20 @@ footer a{
 }
 .time:before{
     content:" à ";
+}
+
+.tier1, .tier2, .tier3{
+    float : left;
+    text-align : center;
+}
+
+.tier1, .tier3{
+    width : 280px;
+}
+
+.pronosLabels{
+    font-weight : bold;
+}
+.pronosLabels+.tier1, #pronoMatch{
+    clear:both;
 }
