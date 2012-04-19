@@ -1,5 +1,16 @@
 {
   "name":"pronos2012",
-  "node":"0.6.12",
-  "author":"cedriclegallo"
+  "version":"0.0.1",
+  "engines": {
+    "node": "0.6.x",
+    "npm":  "1.1.x"
+  },
+  "dependencies": {
+    "ejs":"0.6.1",
+    "everyauth":"0.2.30",
+    "express": "2.5.8",
+    "mongoose":"2.5.9",
+    "mongoose-auth":"0.0.12",
+    "mongoose-types":"1.0.3"
+  }
 }

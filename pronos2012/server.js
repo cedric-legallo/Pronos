@@ -2,6 +2,9 @@ var CONST = require("./CONST");
 
 var pronos = {};
 pronos.db={};
+//NEWS
+var http = require("http"), xml2json = require("./xml2json");
+var DateFormat = require('dateformat.js').DateFormat;
 
 //mongoose
 var mongoose = require("mongoose"), mongooseTypes = require("mongoose-types"), mongooseAuth = require('mongoose-auth'), mongooseAuthConf = require('./mongooseAuthConf.js');
@@ -12,8 +15,12 @@ pronos.db.UserSchema = new mongoose.Schema({
     , capital: {type : Number, default:100}
 });
 
-//var appHostName="http://localhost:15436";
-var appHostName="http://pronos2012.nodester.com";
+var port = process.env.PORT || 3000;
+//var appHostName="http://localhost:"+port;
+
+var appHostName="http://pronos2012.herokuapp.com";
+
+
 
 pronos.db.UserSchema.plugin(mongooseAuth, {
 	// Here, we attach your User model to every module
@@ -78,7 +85,6 @@ pronos.db.UserSchema.plugin(mongooseAuth, {
             }
     }
 });
-//pronos.db.Pronos = new mongoose.Schema
 
 pronos.db.Matches = new mongoose.Schema({
     "teamA":String,
@@ -147,7 +153,7 @@ app.configure( function () {
 });
 
 app.get('/', function (req, res) {
-  res.render('test.ejs');
+        res.render('test.ejs');
 });
 
 app.get('/logout', function (req, res) {
@@ -159,7 +165,7 @@ app.post("/postMessage", function(req, res) {
     var message;
     var name = getUserName(req.user);
     var _d = new Date()+7200000;//serveur à heure solaire
-    message = {author:name, message:req.body.message, date:_d};
+    message = {author:name, message:unescape(req.body.message), date:_d};
     var post = new Posts(message);
     var event = new Events({username:name, type : 'comment', date : _d});
     post.save();
@@ -168,7 +174,7 @@ app.post("/postMessage", function(req, res) {
 });
 
 app.get('/events', function(req, res){
-    Events.find({}).desc("date").limit(5).run(function (err, docs) {
+    Events.find({}).desc("date").limit(10).run(function (err, docs) {
 	res.send(docs);
     });    
 });
@@ -243,7 +249,6 @@ app.post("/prono", function(req, res) {
     });
 });
 
-
 app.get('/home', function(req, res){
     Posts.find({}).desc("date").limit(10).run(function (err, docs) {
 	res.send(docs);
@@ -292,19 +297,77 @@ app.get('/userPronos', function(req,res) {
 app.get('/profil', function(req, res){
     var user = req.user;
     var name = getUserName(user);
+   
     var avatar = getUserImage(user);
     res.send({username:name,avatar:avatar,capital:user.capital,team:user.nation});
 });
 
+app.get('/news', function(req, res){
+    var options = {
+	host:'fr.uefa.com'
+	, path: '/rssfeed/news/rss.xml'
+    }
+
+    var req = http.get(options, function(resp){
+	var wholeResp='';
+	resp.on('data', function (chunk) {
+		wholeResp+=chunk;
+    });
+	resp.on('end', function(){
+	    var newsData = [];
+	    wholeResp = wholeResp.replace(/\<!\[CDATA\[/g,"")
+	    wholeResp = wholeResp.replace(/]]>/g,"")
+	    var news = xml2json.xml2json.parser(wholeResp, '').rss.channel.item;
+	    var pivot = new Date();
+	    pivot = pivot.getTime() - 48 * 60 * 60 * 1000;//48h auparavant
+	    for (var i = news.length-1; i>= 0 ; i--){
+		var elt = news[i];
+		var eltDate = elt.pubdate.substring(0, elt.pubdate.length - 4);
+		var df = new DateFormat("ddd', 'dd' 'MMM' 'yyyy' 'HH':'mm':'ss");
+		eltDate = df.parse(eltDate);//Tue, 17 Apr 2012 22:37:00 GMT
+		if (eltDate.getTime() > pivot){
+		    delete elt.description;
+		    delete elt.enclosure;
+		    delete elt.category;
+		    newsData.push(elt);
+		}
+	    }
+	    res.send(newsData);
+	});
+    });
+    req.on('error', function(e){
+	console.log('error : ' + e.message);
+    });
+    req.end();
+});
+
+app.post("/changeTeam", function(req, res) {
+    var options={host : 'http://fr.uefa.com/rssfeed/news/rss.xml'}
+    var user = req.user;
+    var name = getUserName(user);
+    var avatar = getUserImage(user);
+    user.nation = unescape(req.body.team);
+    user.save();
+    res.send(user.nation);
+});
+
 mongooseAuth.helpExpress(app);
 
-app.listen(15436);
+
+app.listen(port, function() {
+  console.log("Listening on " + port);
+});
 
 
 function getUserName(user){
-    return user.twit.name || [user.name.first," ",user.name.last].join('');//github,google,fb
+    var name = user.twit.name || [user.name.first," ",user.name.last].join('');//github,google,fb
+    if (name == " ") {
+	name = user.email;
+    }
+    return name;
 }
 
 function getUserImage(user){
     return user.twit.profileImageUrl || user.avatar;
 }
+
